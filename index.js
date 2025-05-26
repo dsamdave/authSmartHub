@@ -4,10 +4,8 @@ const dotenv = require("dotenv")
 const Auth = require("./models/authModel")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
-const { sendForgotPasswordEmail } = require("./sendMail")
-const { handleGetUsers, handleLogin, handleSignUp, handleForgotPassword, handleResetPassword } = require("./controllers")
-const { validationLogin } = require("./middleware")
-const auth = require("./middleware/authenticate")
+
+const routes = require("./routes")
 
 dotenv.config()
 
@@ -28,17 +26,7 @@ mongoose.connect(process.env.MONGODB_URL)
 
 
 
-app.post("/sign-up", handleSignUp   )
-
-
-app.post("/login", validationLogin, handleLogin)
-
-
-app.post("/forgot-password", handleForgotPassword)
-
-app.patch("/reset-password", handleResetPassword)
-
-app.get("/get-users", auth,  handleGetUsers)
+app.use("/api/auth", routes)
 
 
 

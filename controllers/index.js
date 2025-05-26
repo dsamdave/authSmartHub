@@ -5,6 +5,8 @@ const jwt = require("jsonwebtoken")
 
 const handleGetUsers = async(req, res)=>{
 
+    console.log({ user: req.user}, "This coming from cotrl")
+
     const allUsers = await Auth.find()
 
     res.status(200).json({
@@ -127,9 +129,9 @@ const handleForgotPassword = async(req, res)=>{
 
 const handleResetPassword = async(req, res)=>{
 
-    const { password, email } = req.body
+    const { password  } = req.body
 
-    const user = await Auth.findOne({ email })
+    const user = await Auth.findOne({ email: req.user.email })
 
     if(!user){
         return res.status(404).json({message: "User not found"})

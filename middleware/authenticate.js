@@ -15,13 +15,21 @@ const auth = async(req, res, next)=>{
 
     const decodedToken = jwt.verify(userToken, process.env.ACCESSTOKEN)
 
+    if(!decodedToken){
+        return res.status(400).json({message: "Please login!"})
+    }
+
+    console.log(decodedToken)
+
     const user = await Auth.findById(decodedToken.id)
 
     // if(user?.role !== "admin"){
     //     return res.status(401).json({messsage: "Invalid Authentication"})
     // }
 
-    console.log({user })
+    // console.log({user })
+
+    req.user = user
 
     next()
 
